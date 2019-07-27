@@ -1,26 +1,57 @@
 import { Logger, createLogger, transports, format } from 'winston';
 import appRoot from 'app-root-path';
 
+
 const { combine, timestamp, label, printf } = format;
+
+const tagLen: number = 8;
+const faceLen: number = 6
+
+const levelSign: {[propName: string]: string} = {
+  info: 'ℹ️',
+  warning: '⚠️',
+  error: '⛔️',
+  debug: '☢️'
+}
 
 
 class ServiceLogger {
-  private serviceName: string;
-  private instanceName: string; 
-  private path: string;
-  private face: string | null;
+  private serviceName: string = 'undefined';
+  private instanceName: string = 'undefined'; 
+  private path: string = 'logs';
+  private face: string = '';
   private logger: Logger | null = null;
   private mode: string = "normal";
 
   constructor(serviceName: string, instanceName: string, path?: string, face?: string) {
-    this.serviceName = serviceName;
-    this.instanceName = instanceName;
-    this.face = face || null;
-    this.path = path || 'logs';
+    if (serviceName.length <= tagLen) {
+      this.serviceName = serviceName;
+    } else {
+      console.error(`Service name cannot be longer than ${tagLen} characters`);
+      process.exit(1);
+    }
+    if (instanceName.length <= tagLen) {
+      this.instanceName = instanceName;
+    } else {
+      console.error(`Instance name cannot be longer than ${tagLen} characters`);
+      process.exit(1);
+    }
+    if (!face) {}
+    else if (face.length > faceLen) {
+      this.face = face;
+    } else {
+      console.error(`Face string cannot be longer than ${tagLen} characters`);
+      process.exit(1);
+    }
+    this.path = path || this.path;
 
     // TODO: Define type TransformableInfo 
     const style = printf((info: any): string => {
-      return `${this.serviceName} | [${new Date().toISOString()}] ${this.instanceName}    ${info.message}`;
+      const level: string = levelSign[info.level];
+      const sern: string = this.serviceName.toUpperCase() + Array(tagLen + 1 - this.serviceName.length).join(' ');
+      const insn: string = this.instanceName.toUpperCase() + Array(tagLen + 1 - this.instanceName.length).join(' ');
+      const now: Date = new Date();
+      return `@${sern} #${insn} [${now.getHours()}:${now.getMinutes()}]  ${this.face} ${level}| ${info.message}`;
     });
 
     const options = {
