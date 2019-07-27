@@ -1,0 +1,42 @@
+{
+  "name": "winston-microlog",
+  "version": "1.0.0",
+  "description": "LoggerManager provides simple and clear logging system that in convenient to use for microservice. Uses winston",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublish": "npm run build", 
+    "build": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dissfall/winston-microlog.git"
+  },
+  "keywords": [
+    "logger",
+    "logging",
+    "logs",
+    "loglevel",
+    "tools",
+    "winston",
+    "microservice",
+    "multiservice",
+    "service",
+    "node"
+  ],
+  "author": "dissfall <dissfalling@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Dissfall/winston-microlog/issues"
+  },
+  "homepage": "https://github.com/Dissfall/winston-microlog#readme",
+  "devDependencies": {
+    "@types/app-root-path": "^1.2.4",
+    "@types/node": "^12.6.8",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "app-root-path": "^2.2.1",
+    "winston": "^3.2.1"
+  }
+}
