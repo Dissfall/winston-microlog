@@ -17,9 +17,7 @@ class ServiceLogger {
     this.instanceName = instanceName;
     this.face = face || null;
     this.path = path || 'logs';
-  }
 
-  public createLogger() {
     // TODO: Define type TransformableInfo 
     const style = printf((info: any): string => {
       return `${this.serviceName} | [${new Date().toISOString()}] ${this.instanceName}    ${info.message}`;
