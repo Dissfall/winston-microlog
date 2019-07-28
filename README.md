@@ -13,7 +13,7 @@ Log manager provides simple and clear logging sysmem convenient to use for micro
     |        |        |        |
     |        |        |        |
     |        |        |        |
-  --v--------v--+  +--v--------v--+
+  +--v--------v--+  +--v--------v--+
   |              |  |              |
   |  Service A   |  |  Service B   |
   |              |  |              |
