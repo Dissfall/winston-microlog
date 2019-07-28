@@ -9,10 +9,10 @@ Log manager provides simple and clear logging sysmem convenient to use for micro
 `winston-microlog` was developed in order to provide a way to keep logs from different sources (and parts of sources) in the most convenient and clear way. First of all, the project was created for microservices, where logs from different services are collected in one thread. Thus, the largest unit of logging is services. Services can include instances, which can be different functional parts of the service or just different files.
 
 ```
-  Unit A1  Unit A2  Unit B1  Unit B2
-    |        |        |        |
-    |        |        |        |
-    |        |        |        |
+   Unit A1  Unit A2  Unit B1  Unit B2
+     |        |        |        |
+     |        |        |        |
+     |        |        |        |
   +--v--------v--+  +--v--------v--+
   |              |  |              |
   |  Service A   |  |  Service B   |
