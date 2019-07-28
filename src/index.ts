@@ -9,7 +9,7 @@ const faceLen: number = 6
 
 const levelSign: {[propName: string]: string} = {
   info: 'ℹ️',
-  warning: '⚠️',
+  warn: '⚠️',
   error: '⛔️',
   debug: '☢️'
 }
