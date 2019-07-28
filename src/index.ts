@@ -95,6 +95,10 @@ class ServiceLogger {
     if (this.logger != null) this.logger.error(message);
   }
 
+  public debug(message: string) {
+    if (this.logger != null) this.logger.debug(message);
+  }
+
   public silent() {
     this.mode = 'silent';
   }
