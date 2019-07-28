@@ -8,10 +8,10 @@ const tagLen: number = 8;
 const faceLen: number = 6
 
 const levelSign: {[propName: string]: string} = {
-  info: 'ℹ️',
-  warning: '⚠️',
+  info: 'ℹ️ ',
+  warn: '⚠️ ',
   error: '⛔️',
-  debug: '☢️'
+  debug: '☢️ '
 }
 
 
@@ -93,6 +93,10 @@ class ServiceLogger {
 
   public err(message: string) {
     if (this.logger != null) this.logger.error(message);
+  }
+
+  public debug(message: string) {
+    if (this.logger != null) this.logger.debug(message);
   }
 
   public silent() {
