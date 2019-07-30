@@ -87,19 +87,19 @@ class ServiceLogger {
     });
   }
 
-  public info(message: string) {
+  public info(message: any) {
     if (this.logger != null) this.logger.info(message);
   }
 
-  public warn(message: string) {
+  public warn(message: any) {
     if (this.logger != null) this.logger.warn(message);
   }
 
-  public err(message: string) {
+  public err(message: any) {
     if (this.logger != null) this.logger.error(message);
   }
 
-  public debug(message: string) {
+  public debug(message: any) {
     if (this.logger != null) this.logger.debug(message);
   }
 
