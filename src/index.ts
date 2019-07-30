@@ -31,7 +31,11 @@ class ServiceLogger {
       process.exit(1);
     }
     if (instanceName.length <= tagLen) {
-      this.instanceName = instanceName;
+      if (instanceName.length === 0) {
+        this.instanceName = '';
+      } else {
+        this.instanceName = '#' + instanceName;
+      }
     } else {
       console.error(`Instance name cannot be longer than ${tagLen} characters`);
       process.exit(1);
@@ -51,7 +55,7 @@ class ServiceLogger {
       const sern: string = this.serviceName.toUpperCase() + Array(tagLen + 1 - this.serviceName.length).join(' ');
       const insn: string = this.instanceName.toUpperCase() + Array(tagLen + 1 - this.instanceName.length).join(' ');
       const now: Date = new Date();
-      return `@${sern} #${insn} [${now.getHours()}:${now.getMinutes()}]  ${this.face} ${level}| ${info.message}`;
+      return `@${sern} ${insn} [${now.getHours()}:${now.getMinutes()}]  ${this.face} ${level}| ${info.message}`;
     });
 
     const options = {
@@ -113,7 +117,7 @@ export default class LogManager {
     this.path = path || 'logs';
   }
 
-  public getLogger(instanceName: string): ServiceLogger {
-    return new ServiceLogger(this.serviceName, instanceName, this.path); 
+  public getLogger(instanceName?: string): ServiceLogger {
+    return new ServiceLogger(this.serviceName, instanceName || '', this.path); 
   }
 }
