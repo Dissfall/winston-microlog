@@ -75,3 +75,9 @@ Result:
 @SERVICE  #MAIN     [10:52]  ⛔| Test error
 @SERVICE  #MAIN     [10:52]   ⚠️| Test warning
 ```
+## Important
+### Execution context
+Note that if you want to pass logger in another module (function, class etc.) execution context wheel be changed and you need to pass logger with their context:
+``` js
+functionUsesLogger(logger.log.bind(logger));
+```
