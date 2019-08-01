@@ -21,7 +21,7 @@ class ServiceLogger {
   private path: string = 'logs';
   private face: string = '';
   private logger: Logger | null = null;
-  private mode: string = "normal";
+  private _silent: boolean = false;
 
   constructor(serviceName: string, instanceName: string, path?: string, face?: string) {
     if (serviceName.length <= tagLen) {
@@ -90,23 +90,23 @@ ${this.face} ${level}| ${info.message}`;
   }
 
   public info(message: any) {
-    if (this.logger != null) this.logger.info(message);
+    if (this.logger != null && !this._silent) this.logger.info(message);
   }
 
   public warn(message: any) {
-    if (this.logger != null) this.logger.warn(message);
+    if (this.logger != null && !this._silent) this.logger.warn(message);
   }
 
   public err(message: any) {
-    if (this.logger != null) this.logger.error(message);
+    if (this.logger != null && !this._silent) this.logger.error(message);
   }
 
   public debug(message: any) {
     if (this.logger != null) this.logger.debug(message);
   }
 
-  public silent() {
-    this.mode = 'silent';
+  public silent(mod: boolean) {
+    this._silent = mod;
   }
 }
 
