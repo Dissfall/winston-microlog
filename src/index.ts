@@ -55,7 +55,9 @@ class ServiceLogger {
       const sern: string = this.serviceName.toUpperCase() + Array(tagLen + 1 - this.serviceName.length).join(' ');
       const insn: string = this.instanceName.toUpperCase() + Array(tagLen + 1 - this.instanceName.length).join(' ');
       const now: Date = new Date();
-      return `@${sern} ${insn} [${now.getHours()}:${now.getMinutes()}]  ${this.face} ${level}| ${info.message}`;
+      return `@${sern} ${insn} \
+[${(now.getHours() < 10 ? ' ' : '') + now.getHours()}:${(now.getMinutes() < 10 ? ' ' : '') + now.getMinutes()}]  \
+${this.face} ${level}| ${info.message}`;
     });
 
     const options = {
