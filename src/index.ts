@@ -16,14 +16,20 @@ const levelSign: {[propName: string]: string} = {
 
 
 class ServiceLogger {
-  private serviceName: string = 'undefined';
-  private instanceName: string = 'undefined'; 
+  private serviceName: string = '';
+  private instanceName: string = ''; 
   private path: string = 'logs';
   private face: string = '';
   private logger: Logger | null = null;
-  private _silent: boolean = false;
+  private config: LoggerConfig = {
+    showService: true,
+    silent: false
+  }
 
-  constructor(serviceName: string, instanceName: string, path?: string, face?: string) {
+  constructor(serviceName: string, instanceName: string, path?: string, face?: string, config?: LoggerConfig) {
+    if (config) {
+      this.config = {...this.config, ...config};
+    }
     if (serviceName.length <= tagLen) {
       this.serviceName = serviceName;
     } else {
@@ -34,7 +40,7 @@ class ServiceLogger {
       if (instanceName.length === 0) {
         this.instanceName = '';
       } else {
-        this.instanceName = '#' + instanceName;
+        this.instanceName = instanceName;
       }
     } else {
       console.error(`Instance name cannot be longer than ${tagLen} characters`);
@@ -52,12 +58,12 @@ class ServiceLogger {
     // TODO: Define type TransformableInfo 
     const style = printf((info: any): string => {
       const level: string = levelSign[info.level];
-      const sern: string = this.serviceName.toUpperCase() + Array(tagLen + 1 - this.serviceName.length).join(' ');
-      const insn: string = this.instanceName.toUpperCase() + Array(tagLen + 1 - this.instanceName.length).join(' ');
+      const sern: string = this.serviceName !== '' ? '@' + this.serviceName.toUpperCase() + Array(tagLen + 1 - this.serviceName.length).join(' ') : Array(tagLen + 2).join(' ');
+      const insn: string = this.instanceName !== '' ? '#' + this.instanceName.toUpperCase() + Array(tagLen + 1 - this.instanceName.length).join(' ') : Array(tagLen + 2).join(' ');
       const now: Date = new Date();
-      return `@${sern} ${insn} \
-[${(now.getHours() < 10 ? ' ' : '') + now.getHours()}:${(now.getMinutes() < 10 ? ' ' : '') + now.getMinutes()}]  \
-${this.face} ${level}| ${info.message}`;
+      return `${this.config.showService ? sern : ''} ${insn}` +
+        `[${(now.getHours() < 10 ? ' ' : '') + now.getHours()}:${(now.getMinutes() < 10 ? ' ' : '') + now.getMinutes()}]` +
+        `${this.face} ${level}| ${info.message}`;
     });
 
     const options = {
@@ -90,15 +96,15 @@ ${this.face} ${level}| ${info.message}`;
   }
 
   public info(message: any) {
-    if (this.logger != null && !this._silent) this.logger.info(message);
+    if (this.logger != null && !this.config.silent) this.logger.info(message);
   }
 
   public warn(message: any) {
-    if (this.logger != null && !this._silent) this.logger.warn(message);
+    if (this.logger != null && !this.config.silent) this.logger.warn(message);
   }
 
   public err(message: any) {
-    if (this.logger != null && !this._silent) this.logger.error(message);
+    if (this.logger != null && !this.config.silent) this.logger.error(message);
   }
 
   public debug(message: any) {
@@ -106,20 +112,35 @@ ${this.face} ${level}| ${info.message}`;
   }
 
   public silent(mod: boolean) {
-    this._silent = mod;
+    this.config.silent = mod;
   }
 }
 
 export default class LogManager {
   private serviceName: string;
   private path: string; 
+  private config: LMConfig = {
+    showService: true
+  }
 
-  constructor(serviceName: string, path?: string) {
+  constructor(serviceName: string, path?: string, config?: LMConfig) {
+    if (config) {
+      this.config = {...this.config, ...config};
+    }
     this.serviceName = serviceName;
     this.path = path || 'logs';
   }
 
-  public getLogger(instanceName?: string): ServiceLogger {
-    return new ServiceLogger(this.serviceName, instanceName || '', this.path); 
+  public getLogger(instanceName?: string, config?: LoggerConfig): ServiceLogger {
+    return new ServiceLogger(this.serviceName, instanceName || '', this.path, undefined, { ...config, ...this.config}); 
   }
+}
+
+export interface LMConfig {
+  showService?: boolean;  
+}
+
+export interface LoggerConfig {
+  silent?: boolean;
+  showService?: boolean;
 }
