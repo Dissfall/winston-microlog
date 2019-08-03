@@ -122,6 +122,7 @@ export default class LogManager {
   private config: LMConfig = {
     showService: true
   }
+  private instances: ServiceLogger[] = [];  
 
   constructor(serviceName: string, path?: string, config?: LMConfig) {
     if (config) {
@@ -132,7 +133,21 @@ export default class LogManager {
   }
 
   public getLogger(instanceName?: string, config?: LoggerConfig): ServiceLogger {
-    return new ServiceLogger(this.serviceName, instanceName || '', this.path, undefined, { ...config, ...this.config}); 
+    const instance = new ServiceLogger(this.serviceName, instanceName || '', this.path, undefined, { ...config, ...this.config});
+    this.instances.push(instance);
+    return instance;
+  }
+
+  public mute = () => {
+    this.instances.forEach((logger: ServiceLogger) => {
+      logger.silent(true);
+    });
+  }
+
+  public unmute = () => {
+    this.instances.forEach((logger: ServiceLogger) => {
+      logger.silent(false);
+    });
   }
 }
 
