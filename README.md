@@ -4,6 +4,10 @@ Log manager provides simple and clear logging sysmem convenient to use for micro
 
 [![NPM](https://nodei.co/npm/winston-microlog.png?downloads=true&downloadRank=true)](https://nodei.co/npm/winston-microlog/)
 
+[![npm Downloads](https://img.shields.io/npm/dm/winston-microlog.svg?style=flat-square)](https://npmcharts.com/compare/winston-microlog?minimal=true)
+[![commit activity](https://img.shields.io/github/commit-activity/m/dissfall/winston-microlog?style=flat-square)](https://github.com/Dissfall/winston-microlog/commits/master)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+
 ## Motivation
 
 `winston-microlog` was developed in order to provide a way to keep logs from different sources (and parts of sources) in the most convenient and clear way. First of all, the project was created for microservices, where logs from different services are collected in one thread. Thus, the largest unit of logging is services. Services can include instances, which can be different functional parts of the service or just different files.
@@ -23,6 +27,9 @@ Log manager provides simple and clear logging sysmem convenient to use for micro
          |                 |
          +---> Logfile <---+
 ```
+## Useful resources
+ * [API documentation](https://dissfall.github.io/winston-microlog/)
+ * [winston repository](https://github.com/winstonjs/winston)
 
 ## Usage
 
@@ -75,9 +82,14 @@ Result:
 @SERVICE  #MAIN     [10:52]  ⛔| Test error
 @SERVICE  #MAIN     [10:52]   ⚠️| Test warning
 ```
-## Important
+## Importants
 ### Execution context
 Note that if you want to pass logger in another module (function, class etc.) execution context wheel be changed and you need to pass logger with their context:
 ``` js
 functionUsesLogger(logger.log.bind(logger));
+```
+### Using with container manager (like docker-compose)
+Recomendet way to use winston-logger with managers like docker-compose is hide service name (because it already provided) with [showService](https://dissfall.github.io/winston-microlog/interfaces/lmconfig.html#showservice)
+``` js
+const logManager = new LogManager('Service', undefined, { showService: false });
 ```
