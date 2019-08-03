@@ -7,6 +7,10 @@ Log manager provides simple and clear logging sysmem convenient to use for micro
 [![npm Downloads](https://img.shields.io/npm/dm/winston-microlog.svg?style=flat-square)](https://npmcharts.com/compare/winston-microlog?minimal=true)
 [![commit activity](https://img.shields.io/github/commit-activity/m/dissfall/winston-microlog?style=flat-square)](https://github.com/Dissfall/winston-microlog/commits/master)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+</br></br>
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/N4N510AEO)
+
+[![Become a patron](https://c5.patreon.com/external/logo/become_a_patron_button.png)](https://www.patreon.com/join/dissfall?)
 
 ## Motivation
 
